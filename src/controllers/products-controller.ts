@@ -1,4 +1,5 @@
 import { NextFunction, Request, Response } from 'express'
+import { db } from '@/database/knex'
 import { z } from 'zod'
 
 export class ProductController {
@@ -19,7 +20,9 @@ export class ProductController {
 
       const { name, price } = bodySchema.parse(req.body)
 
-      return res.status(201).json({ name, price })
+      await db<ProductRepository>('products').insert({ name, price })
+
+      return res.status(201).json()
     } catch (error) {
       next(error)
     }
