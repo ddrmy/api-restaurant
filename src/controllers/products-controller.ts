@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express'
 import { db } from '@/database/knex'
 import { z } from 'zod'
 import knex from 'knex'
+import { AppError } from '@/utils/AppErros'
 
 export class ProductController {
   async index(req: Request, res: Response, next: NextFunction) {
@@ -48,11 +49,45 @@ export class ProductController {
         price: z.number().gt(0),
       })
 
+      const product = await db<ProductRepository>('products')
+        .select()
+        .where({ id })
+        .first()
+
       const { name, price } = bodySchema.parse(req.body)
+
+      if (!product) {
+        throw new AppError('product not found')
+      }
 
       await db<ProductRepository>('products')
         .update({ name, price, updated_at: db.fn.now() })
         .where({ id })
+
+      return res.json()
+    } catch (error) {
+      next(error)
+    }
+  }
+
+  async remove(req: Request, res: Response, next: NextFunction) {
+    try {
+      const id = z
+        .string()
+        .transform((value) => Number(value))
+        .refine((value) => !isNaN(value), { message: 'id must be a number' })
+        .parse(req.params.id)
+
+      const product = await db<ProductRepository>('products')
+        .select()
+        .where({ id })
+        .first()
+
+      if (!product) {
+        throw new AppError('product not found')
+      }
+
+      await db<ProductRepository>('products').delete().where({ id })
 
       return res.json()
     } catch (error) {
