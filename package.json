@@ -1,0 +1,26 @@
+{
+  "name": "api-restaurant",
+  "version": "1.0.0",
+  "description": "API para gerenciar pedidos das mesas de umrestaurante.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ddrmy/api-restaurant.git"
+  },
+  "keywords": [],
+  "author": "Gabriel Sarti Fernandes Roberti",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ddrmy/api-restaurant/issues"
+  },
+  "homepage": "https://github.com/ddrmy/api-restaurant#readme",
+  "devDependencies": {
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "^8.57.1",
+    "prettier": "^3.8.4",
+    "prettier-eslint": "^16.4.2",
+    "typescript": "^4.9.5"
+  }
+}
